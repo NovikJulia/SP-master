@@ -65,11 +65,11 @@ namespace SP.Data
 
         public DbSet<Student> Students { get; set; }
 
-        public DbSet<Themen> Themens { get; set; }
+        public DbSet<Thema> Themens { get; set; }
 
         public DbSet<Unterthema> Unterthemas { get; set; }
 
-        public DbSet<Übungen> Übungens { get; set; }
+        public DbSet<Übung> Übungens { get; set; }
 
     }
 }

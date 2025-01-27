@@ -294,7 +294,7 @@ namespace SP.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SP.Models.Unterrichten.Themen", b =>
+            modelBuilder.Entity("SP.Models.Unterrichten.Thema", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -339,7 +339,7 @@ namespace SP.Data.Migrations
                     b.ToTable("Unterthemas");
                 });
 
-            modelBuilder.Entity("SP.Models.Unterrichten.Übungen", b =>
+            modelBuilder.Entity("SP.Models.Unterrichten.Übung", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -430,19 +430,19 @@ namespace SP.Data.Migrations
 
             modelBuilder.Entity("SP.Models.Unterrichten.Unterthema", b =>
                 {
-                    b.HasOne("SP.Models.Unterrichten.Themen", "Themen")
+                    b.HasOne("SP.Models.Unterrichten.Thema", "Thema")
                         .WithMany("UnterthemenList")
                         .HasForeignKey("ThemenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Themen");
+                    b.Navigation("Thema");
                 });
 
-            modelBuilder.Entity("SP.Models.Unterrichten.Übungen", b =>
+            modelBuilder.Entity("SP.Models.Unterrichten.Übung", b =>
                 {
                     b.HasOne("SP.Models.Unterrichten.Unterthema", "Unterthema")
-                        .WithMany("Übungen")
+                        .WithMany("Übung")
                         .HasForeignKey("UnterthemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -450,14 +450,14 @@ namespace SP.Data.Migrations
                     b.Navigation("Unterthema");
                 });
 
-            modelBuilder.Entity("SP.Models.Unterrichten.Themen", b =>
+            modelBuilder.Entity("SP.Models.Unterrichten.Thema", b =>
                 {
                     b.Navigation("UnterthemenList");
                 });
 
             modelBuilder.Entity("SP.Models.Unterrichten.Unterthema", b =>
                 {
-                    b.Navigation("Übungen");
+                    b.Navigation("Übung");
                 });
 #pragma warning restore 612, 618
         }

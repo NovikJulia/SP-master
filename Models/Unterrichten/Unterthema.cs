@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public virtual Themen? Themen { get; set; }
+        public virtual Thema? Themen { get; set; }
 
         public Guid ThemenId { get; set; }
 
@@ -16,7 +16,7 @@
 
         public string? Beispiele { get; set; }
 
-        public virtual List<Übungen>? Übungen { get; set; }
+        public virtual List<Übung>? Übungen { get; set; }
 
     }
 }

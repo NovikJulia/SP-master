@@ -55,7 +55,7 @@ namespace SP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Bereich,ThemeName")] Themen themen)
+        public async Task<IActionResult> Create([Bind("Id,Bereich,ThemeName")] Thema themen)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace SP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Bereich,ThemeName")] Themen themen)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Bereich,ThemeName")] Thema themen)
         {
             if (id != themen.Id)
             {
