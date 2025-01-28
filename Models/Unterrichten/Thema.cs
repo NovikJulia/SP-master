@@ -4,11 +4,16 @@
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public Bereich Bereich  { get; set; }
+        public Bereich Bereich { get; set; }
 
         public string? ThemaName { get; set; }
 
-        public virtual List<Unterthema>? UnterthemenList { get; set; } 
+        public virtual List<Unterthema>? UnterthemenList { get; set; }
+
+        public override string ToString()
+        {
+            return ThemaName != null ? ThemaName : string.Empty;
+        }
     }
     public enum Bereich
     {

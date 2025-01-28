@@ -16,7 +16,15 @@
 
         public string? Beispiele { get; set; }
 
-        public virtual List<Übung>? Übungen { get; set; }
+        public virtual List<Uebung>? Übungen { get; set; }
 
+
+        public override string ToString()
+        {
+            return  NameUntertheme != null ? NameUntertheme :  string.Empty;
+        }
     }
+
+    
+
 }

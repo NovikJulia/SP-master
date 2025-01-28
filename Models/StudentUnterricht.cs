@@ -4,6 +4,8 @@ namespace SP.Models
 {
     public class StudentUnterricht
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         public int StudentId { get; set; }
         public Student Student { get; set; } = null!;
 

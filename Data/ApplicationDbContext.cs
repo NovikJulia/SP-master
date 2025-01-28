@@ -69,7 +69,7 @@ namespace SP.Data
 
         public DbSet<Unterthema> Unterthemas { get; set; }
 
-        public DbSet<Übung> Übungens { get; set; }
+        public DbSet<Uebung> Uebungens { get; set; }
 
     }
 }

@@ -9,7 +9,7 @@ namespace SP.Models
     public class Unterricht
     {
         public int Id { get; set; }
-        public Übung Übungen { get; set; }
+        public Uebung Übungen { get; set; }
         public bool Status { get; set; } = false; 
         // Связь с учителями и учениками
         public int? TeacherId { get; set; }

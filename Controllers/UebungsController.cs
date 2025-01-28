@@ -10,25 +10,23 @@ using SP.Models.Unterrichten;
 
 namespace SP.Controllers
 {
-    public class ThemenController : Controller
+    public class UebungsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private static List<SelectListItem>? _bereichList;
-             
 
-        public ThemenController(ApplicationDbContext context)
+        public UebungsController(ApplicationDbContext context)
         {
             _context = context;
-            _bereichList = Enum.GetValues(typeof(Bereich)).Cast<Bereich>().Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
         }
 
-        // GET: Themen
+        // GET: Uebungs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Themens.ToListAsync());
+            var applicationDbContext = _context.Uebungens.Include(u => u.Unterthema);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Themen/Details/5
+        // GET: Uebungs/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -36,40 +34,49 @@ namespace SP.Controllers
                 return NotFound();
             }
 
-            var themen = await _context.Themens
+            var uebung = await _context.Uebungens
+                .Include(u => u.Unterthema)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (themen == null)
+            if (uebung == null)
             {
                 return NotFound();
             }
 
-            return View(themen);
+            return View(uebung);
         }
 
-        // GET: Themen/Create
+        // GET: Uebungs/Create
         public IActionResult Create()
         {
-            ViewBag.Bereichs = _bereichList;
+            //ViewBag.Bereichs = Enum.GetValues(typeof(Bereich)).Cast<Bereich>().Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
+
+            var Unterthemas = _context.Unterthemas.ToList();
+
+            var list = new SelectList(_context.Unterthemas, "Id", "NameUntertheme");
+            ViewData["Unterthema"] = new SelectList(_context.Unterthemas, "Id", "NameUntertheme");
+
             return View();
         }
 
-        // POST: Themen/Create
+        // POST: Uebungs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Bereich,ThemaName")] Thema themen)
+        public async Task<IActionResult> Create([Bind("Id,UnterthemaId,Aufgabe,Frame,Text,Antworten")] Uebung uebung)
         {
             if (ModelState.IsValid)
             {
-               _context.Add(themen);
+                uebung.Id = Guid.NewGuid();
+                _context.Add(uebung);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(themen);
+            ViewData["UnterthemaId"] = new SelectList(_context.Unterthemas, "Id", "Id", uebung.UnterthemaId);
+            return View(uebung);
         }
 
-        // GET: Themen/Edit/5
+        // GET: Uebungs/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -77,26 +84,23 @@ namespace SP.Controllers
                 return NotFound();
             }
 
-            var themen = await _context.Themens.FindAsync(id);
-            if (themen == null)
+            var uebung = await _context.Uebungens.FindAsync(id);
+            if (uebung == null)
             {
                 return NotFound();
             }
-            ViewBag.Bereichs = _bereichList;
-
-            return View(themen);
+            ViewData["UnterthemaId"] = new SelectList(_context.Unterthemas, "Id", "Id", uebung.UnterthemaId);
+            return View(uebung);
         }
 
-     
-
-        // POST: Themen/Edit/5
+        // POST: Uebungs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Bereich,ThemaName")] Thema themen)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,UnterthemaId,Aufgabe,Frame,Text,Antworten")] Uebung uebung)
         {
-            if (id != themen.Id)
+            if (id != uebung.Id)
             {
                 return NotFound();
             }
@@ -105,12 +109,12 @@ namespace SP.Controllers
             {
                 try
                 {
-                    _context.Update(themen);
+                    _context.Update(uebung);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ThemenExists(themen.Id))
+                    if (!UebungExists(uebung.Id))
                     {
                         return NotFound();
                     }
@@ -121,10 +125,11 @@ namespace SP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(themen);
+            ViewData["UnterthemaId"] = new SelectList(_context.Unterthemas, "Id", "Id", uebung.UnterthemaId);
+            return View(uebung);
         }
 
-        // GET: Themen/Delete/5
+        // GET: Uebungs/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -132,34 +137,35 @@ namespace SP.Controllers
                 return NotFound();
             }
 
-            var themen = await _context.Themens
+            var uebung = await _context.Uebungens
+                .Include(u => u.Unterthema)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (themen == null)
+            if (uebung == null)
             {
                 return NotFound();
             }
 
-            return View(themen);
+            return View(uebung);
         }
 
-        // POST: Themen/Delete/5
+        // POST: Uebungs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var themen = await _context.Themens.FindAsync(id);
-            if (themen != null)
+            var uebung = await _context.Uebungens.FindAsync(id);
+            if (uebung != null)
             {
-                _context.Themens.Remove(themen);
+                _context.Uebungens.Remove(uebung);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ThemenExists(Guid id)
+        private bool UebungExists(Guid id)
         {
-            return _context.Themens.Any(e => e.Id == id);
+            return _context.Uebungens.Any(e => e.Id == id);
         }
     }
 }

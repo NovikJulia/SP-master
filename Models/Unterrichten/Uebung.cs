@@ -1,6 +1,6 @@
 ﻿namespace SP.Models.Unterrichten
 {
-    public class Übung
+    public class Uebung
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

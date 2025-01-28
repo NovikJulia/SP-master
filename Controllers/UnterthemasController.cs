@@ -48,7 +48,7 @@ namespace SP.Controllers
         // GET: Unterthemas/Create
         public IActionResult Create()
         {
-            ViewData["ThemenId"] = new SelectList(_context.Themens, "Id", "Id");
+            ViewData["ThemenId"] = new SelectList(_context.Themens, "Id", "ThemaName");
             return View();
         }
 

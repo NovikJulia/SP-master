@@ -339,7 +339,7 @@ namespace SP.Data.Migrations
                     b.ToTable("Unterthemas");
                 });
 
-            modelBuilder.Entity("SP.Models.Unterrichten.Übung", b =>
+            modelBuilder.Entity("SP.Models.Unterrichten.Uebung", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -439,10 +439,10 @@ namespace SP.Data.Migrations
                     b.Navigation("Thema");
                 });
 
-            modelBuilder.Entity("SP.Models.Unterrichten.Übung", b =>
+            modelBuilder.Entity("SP.Models.Unterrichten.Uebung", b =>
                 {
                     b.HasOne("SP.Models.Unterrichten.Unterthema", "Unterthema")
-                        .WithMany("Übung")
+                        .WithMany("Uebung")
                         .HasForeignKey("UnterthemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -457,7 +457,7 @@ namespace SP.Data.Migrations
 
             modelBuilder.Entity("SP.Models.Unterrichten.Unterthema", b =>
                 {
-                    b.Navigation("Übung");
+                    b.Navigation("Uebung");
                 });
 #pragma warning restore 612, 618
         }
