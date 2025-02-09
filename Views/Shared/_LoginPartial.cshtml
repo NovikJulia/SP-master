@@ -4,8 +4,27 @@
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
+        {
+       
+        var appUser = SignInManager.IsSignedIn(User) ? await UserManager.GetUserAsync(User) : null;
+        var roles = appUser != null ? await UserManager.GetRolesAsync(appUser) : new List<string>();
+
+
+        @if (roles.Contains("Admin"))
+        {         
+                <input type="button" class="oval-button btn-primary font-weight-bold mx-3" value="Вчитель" onclick="location.href='@Url.Action("SaveUser", new{role = "Lehrer"})'" />
+         
+        }
+        @if (User.IsInRole("Lehrer"))
+        {
+            <form method="get">
+                <input type="button" class="oval-button btn-primary font-weight-bold mx-3" value="Вчитель" onclick="location.href='@Url.Action("SaveUser", new{role = "Lehrer"})'" />
+                        <input type="button" class="oval-button btn-primary font-weight-bold mx-3" value="Вчитель" onclick="location.href='@Url.Action("SaveUser", new{role = "Lehrer"})'" />
+            </form>
+        }
+
+
+        <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>
     <li class="nav-item">

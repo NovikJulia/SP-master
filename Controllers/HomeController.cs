@@ -24,6 +24,27 @@ namespace SP.Controllers
 
         public async Task<IActionResult> Index()
         {
+           var user = await _userManager.GetUserAsync(User);
+
+          // await _userManager.AddToRoleAsync(user, "Admin");
+
+
+            
+
+            var roles = user != null ? await _userManager.GetRolesAsync(user) : null;
+
+
+            //var listOfLevels = new List<Level>() { Level.A2, Level.B1 };
+
+            //var students = _context.Students.Where(x => listOfLevels.Contains(x.Level));
+
+            //var realStudents = students.FirstOrDefault();
+
+            return View();
+        }
+
+        public async Task<IActionResult> Login()
+        {
             var user = await _userManager.GetUserAsync(User);
 
             var roles = user != null ? await _userManager.GetRolesAsync(user) : null;
@@ -35,7 +56,7 @@ namespace SP.Controllers
             
             var realStudents = students.FirstOrDefault();
 
-            return View();
+            return View("~/Views/Home/Index.cshtml");
         }
 
         [Authorize(Roles ="Student")]
@@ -47,6 +68,45 @@ namespace SP.Controllers
             {
                 return Forbid();
             }
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult SaveUser(string role)
+        {
+            if (role == "Manager")
+                return RedirectToAction("Manager");
+            else if (role.ToLower() == "Student".ToLower())
+                return RedirectToAction("Student");
+            else if (role == "Lehrer")
+                return RedirectToAction("Lehrer");
+            else { return View("Index"); }
+        }
+
+        [HttpPost]
+        public IActionResult SaveUser()
+        {
+            return RedirectToAction("Index");
+            //TempData["Message"] = $": {role}";
+            //if (role == "Manager")
+            //    return RedirectToAction("Manager");
+            //else if (role.ToLower() == "Student".ToLower())
+            //    return RedirectToAction("Student");
+            //else if (role == "Lehrer")
+            //    return RedirectToAction("Lehrer");
+            //else { return View("Index"); }
+        }
+
+        //[Authorize(Roles = "Student")]
+        public IActionResult Lehrer()
+        {
+            var user = _userManager.GetUserAsync(User).Result!;
+
+            //if (user.Type != UserType.Admin)
+            //{
+            //    return Forbid();
+            //}
 
             return View();
         }

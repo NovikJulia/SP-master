@@ -48,7 +48,8 @@ namespace SP.Controllers
         // GET: Unterthemas/Create
         public IActionResult Create()
         {
-            ViewData["ThemenId"] = new SelectList(_context.Themens, "Id", "ThemaName");
+            ViewData["ThemaName"] = new SelectList(_context.Themens, "ThemaName", "ThemaName");
+            ViewData["Id"] = new SelectList(_context.Themens, "Id", "Id");
             return View();
         }
 
@@ -66,7 +67,7 @@ namespace SP.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ThemenId"] = new SelectList(_context.Themens, "Id", "Id", unterthema.ThemenId);
+            ViewData["ThemaName"] = new SelectList(_context.Themens, "ThemaName", "ThemaName", unterthema.Themen.ThemaName);
             return View(unterthema);
         }
 
@@ -83,7 +84,7 @@ namespace SP.Controllers
             {
                 return NotFound();
             }
-            ViewData["ThemenId"] = new SelectList(_context.Themens, "Id", "Id", unterthema.ThemenId);
+            ViewData["ThemaName"] = new SelectList(_context.Themens, "Id", "ThemaName", unterthema.NameUntertheme);
             return View(unterthema);
         }
 
